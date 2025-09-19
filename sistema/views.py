@@ -1,5 +1,5 @@
 from django.views.generic import View
-from django.shortcuts import render 
+from django.shortcuts import redirect, render 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse   
 
@@ -16,6 +16,6 @@ class Login(View):
         if user is not None:
              if user.is_active:
                 login(request, user)
-                return HttpResponse('Usuario autenticado com sucesso!')
+                return redirect("/veiculo")
         
         return render(request, 'autenticacao.html', {'mensagem': 'Login Falhou!'})
