@@ -1,57 +1,48 @@
 {% extends 'base.html' %}
-{% block title %}Listagem de Veículos{% endblock %}
+{% block titulo %}Listagem de Veículos{% endblock %}
 {% block conteudo %}
-
-<div class="container mt-4">
-        
-<div class="container mt-4">
-    <h2>Listagem de Veículos</h2>
-    
-    <form method="get" action="">
-        <div class="input-group mb-3">
-            <input type="text" name="q" class="form-control" placeholder="Pesquisar por marca ou modelo" value="{{ request.GET.q }}">
-            <button class="btn btn-primary" type="submit">Pesquisar</button>
+<div class="container py-4">
+    <div>
+        <div class="text-center mb-5">
+            <h1 class="display-5">Nossos Veículos</h1>
+            <p class="lead text-secondary">Explore nosso catálogo completo</p>
         </div>
-    </form>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Ano</th>
-                <th>Placa</th>
-            </tr>
-        </thead>
-        
-        <tbody>
+        <div class="card text-bg-dark mb-4" style="border-radius: 0.75rem;">
+            <div class="card-body">
+                <form method="get" action="">
+                    <input type="text" name="q" class="form-control form-control-lg" placeholder="Pesquisar por marca, modelo, placa..." value="{{ request.GET.q }}" style="border-radius: 0.5rem; background-color: #495057; border-color: #495057; color: #e9ecef;">
+                </form>
+            </div>
+        </div>
+
+        <div class="vehicle-card-grid">
             {% for v in lista_veiculos %}
-            <tr>
-                <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-
-                <div class="card-body">
-                    <h5 class="card-title">{{ v.get_marca_display }} </h5>
-                    <p class="card-text">{{ v.modelo }}</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Ano: {{ v.ano }}</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                </ul>
-                <div class="card-body">
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div>
+                <div class="card vehicle-card text-bg-dark">
+                    <img src="https://via.placeholder.com/400x250.png?text=Imagem+do+Veículo" class="card-img-top" alt="Imagem do {{ v.modelo }}" style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ v.get_marca_display }}</h5>
+                        <p class="card-text">{{ v.modelo }}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Ano: {{ v.ano }}</li>
+                        <li class="list-group-item">Cor: {{ v.cor }}</li>
+                        <li class="list-group-item">Placa: {{ v.placa }}</li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="#" class="card-link">Ver detalhes</a>
+                        <a href="#" class="card-link">Editar</a>
+                    </div>
                 </div>
             {% empty %}
-            <tr>
-                <td colspan="4">Nenhum veículo encontrado.</td>
-            </tr>
+                <div class="col">
+                    <div class="alert alert-light text-center" role="alert">
+                        Nenhum veículo encontrado.
+                    </div>
+                </div>
             {% endfor %}
-        </tbody>
-    </table>
+        </div>
+    </div>
 </div>
-
 
 {% endblock %}

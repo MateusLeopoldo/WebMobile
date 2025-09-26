@@ -1,0 +1,56 @@
+body.auth-body {
+    background-color: #1a1b1e; /* Um preto um pouco mais suave */
+    min-height: 100vh;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+    background-color: #343a40; /* Fundo cinza escuro para o card */
+    color: #e9ecef; /* Texto claro para o conteúdo do card */
+}
+
+.auth-card .card-body {
+    padding: 2rem;
+}
+.card-body.text-center {
+    color: #e9ecef; /* Garante que o texto centralizado seja claro */
+}
+
+.auth-icon {
+    font-size: 3rem;
+    color: #4c6ef5; /* Cor azul primária do novo tema */
+}
+
+.form-control {
+    border-radius: 0.5rem;
+    background-color: #495057;
+    border-color: #495057;
+    color: #e9ecef;
+}
+
+.form-control:focus {
+    background-color: #495057;
+    color: #e9ecef;
+    border-color: #4c6ef5;
+    box-shadow: 0 0 0 0.25rem rgba(76, 110, 245, 0.25);
+}
+
+.form-control::placeholder {
+    color: #adb5bd;
+}
+
+.btn {
+    border-radius: 0.5rem;
+}

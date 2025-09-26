@@ -7,7 +7,10 @@ class Login(View):
 
     def get(self, request):
         contexto = {}
-        return render(request, 'autenticacao.html', contexto)     
+        if request.user.is_authenticated:
+            return redirect("/veiculo")
+        else:
+            return render(request, 'autenticacao.html', contexto)
     
     def post(self, request):
         usuario = request.POST.get('usuario', None)
@@ -16,6 +19,12 @@ class Login(View):
         if user is not None:
              if user.is_active:
                 login(request, user)
-                return redirect("/veiculo")
-        
-        return render(request, 'autenticacao.html', {'mensagem': 'Login Falhou!'})
+                return redirect("/veiculo")     
+        else:
+            return render(request, 'autenticacao.html', {'msg': 'Usuário ou senha inválidos!'})
+    
+class Logout(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect("/")

@@ -1,0 +1,32 @@
+.vehicle-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Ajustes para os cards com tema escuro */
+.vehicle-card.text-bg-dark {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-radius: 0.75rem; /* Bordas mais arredondadas */
+}
+
+.vehicle-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.vehicle-card.text-bg-dark .list-group-item {
+    background-color: transparent; /* Fundo transparente para herdar o do card */
+    color: #ced4da; /* Texto claro para os itens da lista */
+    border-color: rgba(255, 255, 255, 0.1); /* Cor da borda dos itens */
+}
+
+.vehicle-card.text-bg-dark .card-link {
+    color: #748ffc; /* Cor azul clara para os links, para bom contraste */
+}
+
+/* Estilo para o corpo do card com texto centralizado */
+.vehicle-card .card-body.text-center {
+    background-color: #343a40; /* Cor de fundo cinza escuro */
+}

@@ -6,10 +6,12 @@
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/5384366.png' %}"/>
 
     <title>{% block titulo %} CARROS E FOFOS {% endblock %}</title>
-
+    <script scr="https://cdn.tailwindcss.com"></script>
     <link href="{% static 'bootstrap-5.3.8-dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <script src="{% static 'bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js' %}"></script>
     <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.4.3/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-oMIIhJL1T5s+PxJr6+Qb0pO1IRFB6OGMM+J57UBT3UQKxSVsb++MkXpu9cLqaJxu" crossorigin="anonymous">
+    <link href="{% static 'css/listar_veiculos.css' %}" rel="stylesheet">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
     {% block css_local %}{% endblock %}
     {% block javascript_local %}{% endblock %}
 </head>
@@ -51,7 +53,7 @@
                 <a href="/logout" type="button" class="btn btn-secondary position-relative">
                     Logout
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">
-                        {{user}}
+                        {{ user }}
                     </span>
                 </a>
             </ul> 
@@ -60,33 +62,25 @@
     </div>
   </div>
 </nav>
-<body style="padding-top: 56px;">
-<body>
-    
+<body style="padding-top: 56px;" class="text-light">    
     <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.4.3/dist/js/coreui.bundle.min.js" integrity="sha384-SWhFOmxmv1pfTLKVBW7q8uossvuaWNeQFdmaWi6xdldiUjyqG9F6V2R2BOC8gkxx" crossorigin="anonymous"></script>
-    <div id="menu-superior">
-        {% block menu_superior %}
-            <br>
-            <div class="container d-flex justify-content-center">
-            <ul class="nav nav-pills nav-fill w-50">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/veiculo/">Listar Veículos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/veiculo/novo">Cadastrar veículo</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Algo Extra IDK</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/veiculo/novo">Terminator</a>
-            </li>
-            </ul>
-          </div>
-
-          
-        {% endblock %}
-    </div>
+    {% block menu_superior %}
+        <div class="menu-superior-bg">
+            <div class="container">
+                <ul class="nav nav-pills nav-fill">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/veiculo/' %}active{% endif %}" href="/veiculo/">Listar Veículos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/veiculo/novo/' %}active{% endif %}" href="/veiculo/novo">Cadastrar veículo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Algo Extra IDK</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {% endblock %}
 
     <div id="conteudo">
         {% block conteudo %}
