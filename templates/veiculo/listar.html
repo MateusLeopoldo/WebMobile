@@ -19,15 +19,19 @@
         <div class="vehicle-card-grid">
             {% for v in lista_veiculos %}
                 <div class="card vehicle-card text-bg-dark">
-                    <img src="https://via.placeholder.com/400x250.png?text=Imagem+do+Veículo" class="card-img-top" alt="Imagem do {{ v.modelo }}" style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem;">
+                    {% if v.foto %}
+                    <img src="{{v.foto.url}}" class="card-img-top" alt="Imagem do {{ v.modelo }}" style="border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem;">
+                    {% else %}
+                    <p class="text-center text-secondary mt-4">Sem imagem disponível</p>
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ v.get_marca_display }}</h5>
                         <p class="card-text">{{ v.modelo }}</p>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Ano: {{ v.ano }}</li>
-                        <li class="list-group-item">Cor: {{ v.cor }}</li>
-                        <li class="list-group-item">Placa: {{ v.placa }}</li>
+                        <li class="list-group-item">Cor: {{ v.get_cor_display }}</li>
+                        <li class="list-group-item">Combustivel: {{ v.get_combustivel_display }}</li>
                     </ul>
                     <div class="card-body">
                         <a href="#" class="card-link">Ver detalhes</a>

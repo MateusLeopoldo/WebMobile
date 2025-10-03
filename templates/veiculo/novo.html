@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block titulo %}Novo Veículo{% endblock %}
 {% block conteudo %}
-<form  action="/veiculo/novo/" method="post">
+<form action="/veiculo/novo/" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="container mt-5">
-        <div class="card text-bg-dark mb-3">
+        <div class="card text-bg-dark mb-3" height="50%">
             <div class="card-header">
                 <h4 class="mb-0">Cadastrar Novo Veículo</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body" height="50%">
                 {% for field in form %}
                     <div class="mb-3">
                         <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
