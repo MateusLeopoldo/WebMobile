@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from veiculo.models import Veiculo
 from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin   
@@ -39,3 +39,14 @@ class FotoVeiculo(View):
             raise Http404("Foto não encontrada ou acesso negado.")
         except Exception as exception:
             raise exception
+        
+class EditarVeiculos(LoginRequiredMixin , UpdateView):
+    model = Veiculo
+    form_class = FormularioVeiculo
+    template_name = 'veiculo/editar.html'
+    success_url = reverse_lazy('listar-veiculos')
+
+class DeletarVeiculos(LoginRequiredMixin , DeleteView):
+    model = Veiculo
+    template_name = 'veiculo/deletar.html'
+    success_url = reverse_lazy('listar-veiculos')

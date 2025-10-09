@@ -1,3 +1,4 @@
+
 .menu-superior-bg {
     background-color: #343a40; /* Cor análoga ao bg-dark da navbar */
     padding: 0.5rem 0;
@@ -54,3 +55,15 @@ body {
     background-color: #1a1b1e; /* Um preto um pouco mais suave */
     color: #f8f9fa; /* Cor de texto light do Bootstrap para garantir a legibilidade */
 }
+    .form-control-lg::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #ced4da;
+        opacity: 1; /* Firefox */
+    }
+
+    .form-control-lg:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #ced4da;
+    }
+
+    .form-control-lg::-ms-input-placeholder { /* Microsoft Edge */
+        color: #ced4da;
+    }

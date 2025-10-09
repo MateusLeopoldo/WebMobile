@@ -21,7 +21,8 @@ class Login(View):
                 login(request, user)
                 return redirect("/veiculo")     
         else:
-            return render(request, 'autenticacao.html', {'msg': 'Usuário ou senha inválidos!'})
+            # Redireciona de volta para a página de login em caso de falha
+            return redirect('/?mensagem=Usuário ou senha inválidos!')
     
 class Logout(View):
 

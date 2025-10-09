@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% block titulo %}Listagem de Veículos{% endblock %}
 {% block conteudo %}
+
 <div class="container py-4">
+    {% load static %}
+    <script src="{% static 'js/listar.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/editar.css' %}">
     <div>
         <div class="text-center mb-5">
             <h1 class="display-5">Nossos Veículos</h1>
@@ -11,7 +15,7 @@
         <div class="card text-bg-dark mb-4" style="border-radius: 0.75rem;">
             <div class="card-body">
                 <form method="get" action="">
-                    <input type="text" name="q" class="form-control form-control-lg" placeholder="Pesquisar por marca, modelo, placa..." value="{{ request.GET.q }}" style="border-radius: 0.5rem; background-color: #495057; border-color: #495057; color: #e9ecef;">
+                    <input type="text" name="q" class="form-control-lg" placeholder="Pesquisar por marca, modelo, placa..." value="{{ request.GET.q }}" style="border-radius: 0.5rem; background-color: #495057; border-color: #495057; color: #e9ecef;">
                 </form>
             </div>
         </div>
@@ -35,7 +39,13 @@
                     </ul>
                     <div class="card-body">
                         <a href="#" class="card-link">Ver detalhes</a>
-                        <a href="#" class="card-link">Editar</a>
+                        <a href="{% url 'editar-veiculos' pk=v.id %}" class="card-link text-info">Editar</a>
+                        <a href="#" 
+                           class="card-link text-danger" 
+                           data-bs-toggle="modal" 
+                           data-bs-target="#deleteModal" 
+                           data-delete-url="{% url 'deletar-veiculos' pk=v.id %}">Excluir
+                        </a>
                     </div>
                 </div>
             {% empty %}
@@ -47,6 +57,27 @@
             {% endfor %}
         </div>
     </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-bg-dark">
+      <div class="modal-header border-danger">
+        <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Você tem certeza que deseja excluir este veículo?</p>
+        <p>Esta ação não pode ser desfeita.</p>
+      </div>
+      <div class="modal-footer border-0">
+        <form id="deleteForm" method="post">
+            {% csrf_token %}
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

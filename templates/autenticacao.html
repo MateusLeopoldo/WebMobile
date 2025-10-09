@@ -14,7 +14,7 @@
 <body class="auth-body">
     <div class="auth-container">
         <div class="card auth-card">
-            <div class="card-body text-center">
+            <div class="card-body text-center" >
 
                 <div class="mb-4">
                     <i class="bi bi-shield-lock-fill auth-icon"></i>
@@ -37,11 +37,6 @@
                         <a href="#" class="text-decoration-none">Esqueceu a senha?</a>
                     </div> -->
 
-                    {% if mensagem %}
-                    <div class="alert alert-danger d-flex align-items-center" role="alert">
-                        {{ mensagem }}
-                    </div>
-                    {% endif %}
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">Entrar</button>
                     </div>
@@ -49,6 +44,36 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal de Erro -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-bg-dark">
+                <div class="modal-header border-danger">
+                    <h5 class="modal-title" id="errorModalLabel"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Falha na Autenticação</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalErrorMessage">
+                    <!-- A mensagem de erro será inserida aqui pelo JavaScript -->
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tentar Novamente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorMessage = urlParams.get('mensagem');
+            if (errorMessage) {
+                document.getElementById('modalErrorMessage').textContent = errorMessage;
+                const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                errorModal.show();
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block titulo %}Confirmar Exclusão{% endblock %}
+{% block conteudo %}
+<div class="container mt-5">
+    <div class="card text-bg-dark border-danger">
+        <div class="card-header">
+            <h4 class="mb-0">Confirmar Exclusão</h4>
+        </div>
+        <div class="card-body">
+            <p>Você tem certeza que deseja excluir o veículo <strong>"{{ object.marca }} {{ object.modelo }}"</strong>?</p>
+            <p class="text-danger">Esta ação não pode ser desfeita.</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <a href="{% url 'listar-veiculos' %}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

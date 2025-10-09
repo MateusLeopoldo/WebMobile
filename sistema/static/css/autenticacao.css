@@ -1,56 +1,39 @@
-body.auth-body {
-    background-color: #1a1b1e; /* Um preto um pouco mais suave */
+/*
+ * Estilos para a página de autenticação.
+ * Centraliza o formulário de login na tela e o estiliza
+ * para se adequar ao tema escuro do sistema.
+ */
+
+.auth-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-height: 100vh;
+    background-color: #1a1b1e; /* Cor de fundo do body em base.css */
+    padding: 1rem;
 }
 
 .auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
-    min-height: 100vh;
+    max-width: 420px; /* Largura máxima para o card de login */
 }
 
 .auth-card {
-    width: 100%;
-    max-width: 400px;
-    border: none;
-    border-radius: 0.75rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
-    background-color: #343a40; /* Fundo cinza escuro para o card */
-    color: #e9ecef; /* Texto claro para o conteúdo do card */
-}
-
-.auth-card .card-body {
-    padding: 2rem;
-}
-.card-body.text-center {
-    color: #e9ecef; /* Garante que o texto centralizado seja claro */
+    background-color: #2c3034; /* Um tom de cinza escuro para o card */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem; /* Bordas mais arredondadas */
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    color: #f8f9fa;
 }
 
 .auth-icon {
     font-size: 3rem;
-    color: #4c6ef5; /* Cor azul primária do novo tema */
+    color: #4c6ef5; /* Cor de destaque azul, como em base.css */
 }
 
-.form-control {
-    border-radius: 0.5rem;
-    background-color: #495057;
-    border-color: #495057;
-    color: #e9ecef;
-}
-
-.form-control:focus {
+.auth-card .form-control {
     background-color: #495057;
     color: #e9ecef;
-    border-color: #4c6ef5;
-    box-shadow: 0 0 0 0.25rem rgba(76, 110, 245, 0.25);
-}
-
-.form-control::placeholder {
-    color: #adb5bd;
-}
-
-.btn {
-    border-radius: 0.5rem;
+    border-color: #6c757d;
 }
