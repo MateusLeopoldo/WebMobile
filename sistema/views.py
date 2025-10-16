@@ -1,5 +1,5 @@
 from django.views.generic import View
-from django.shortcuts import render 
+from django.shortcuts import redirect, render 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse   
 
@@ -7,7 +7,10 @@ class Login(View):
 
     def get(self, request):
         contexto = {}
-        return render(request, 'autenticacao.html', contexto)     
+        if request.user.is_authenticated:
+            return redirect("/album")
+        else:
+            return render(request, 'autenticacao.html', contexto)
     
     def post(self, request):
         usuario = request.POST.get('usuario', None)
@@ -16,6 +19,13 @@ class Login(View):
         if user is not None:
              if user.is_active:
                 login(request, user)
-                return HttpResponse('Usuario autenticado com sucesso!')
-        
-        return render(request, 'autenticacao.html', {'mensagem': 'Login Falhou!'})
+                return redirect("/album")     
+        else:
+            # Redireciona de volta para a página de login em caso de falha
+            return redirect('/?mensagem=Usuário ou senha inválidos!')
+    
+class Logout(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect("/")

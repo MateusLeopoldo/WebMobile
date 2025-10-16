@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Novo Álbum{% endblock %}
+
+{% block conteudo %}
+<div class="container">
+    <h2>Adicionar Novo Álbum</h2>
+    <form method="post" enctype="multipart/form-data" id="album-form">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+
+        <hr>
+        <h3>Músicas</h3>
+        
+        {{ formset.management_form }}
+        
+        <div id="musicas-form-list">
+            {% for form in formset %}
+            <div class="musica-form">
+                {{ form.as_p }}
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div id="empty-form" style="display: none;">
+            {{ formset.empty_form.as_p }}
+        </div>
+
+        <button type="button" id="add-form" class="btn btn-info">Adicionar Música</button>
+        <br><br>
+        <button type="submit" class="btn btn-primary">Salvar Álbum</button>
+    </form>
+</div>
+
+<script src="{% static 'js/formset.js' %}"></script>
+{% endblock %}

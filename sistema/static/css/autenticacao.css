@@ -1,0 +1,39 @@
+/*
+ * Estilos para a página de autenticação.
+ * Centraliza o formulário de login na tela e o estiliza
+ * para se adequar ao tema retrô do sistema.
+ */
+
+.auth-body {
+    /* Herda as variáveis de cor e fonte do base.css */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--cor-fundo);
+    background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+    padding: 1rem;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 420px;
+}
+
+.auth-card {
+    background-color: var(--cor-card);
+    border: 1px solid var(--cor-card-borda);
+    border-radius: 0.75rem; /* Bordas mais arredondadas */
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    color: var(--cor-texto);
+}
+
+.auth-icon {
+    font-size: 3rem;
+    color: var(--cor-primaria); /* Usa a cor primária marrom */
+}
+
+.auth-card .form-control {
+    /* Os estilos agora são herdados do base.css */
+}

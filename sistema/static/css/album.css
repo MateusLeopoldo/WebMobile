@@ -1,0 +1,21 @@
+/*
+ * Estilos específicos para a seção de álbuns.
+ */
+
+.card-album {
+    background-color: var(--cor-card);
+    border: 1px solid var(--cor-card-borda);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-album:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.album-cover {
+    object-fit: cover;
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+}

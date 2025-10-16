@@ -1,0 +1,130 @@
+/* sistema/static/css/base.css - Refatorado para VINTAGE MINIMALISTA TERROSO */
+
+/* Variáveis de Cor para Tema Vintage/Terroso */
+:root {
+    --cor-primaria: #5e503f; /* Deep Espresso Brown - Headers, main text */
+    --cor-secundaria: #a3583c; /* Terracotta/Rust - Accent, Links, Primary Buttons */
+    --cor-fundo-base: #fce5c7; /* Bege um pouco mais escuro */
+    --cor-fundo-card: #b69a75; /* Branco puro para contraste minimalista na tela */
+    --cor-borda: #d4c9b3; /* Muted Khaki/Sand - Borda suave */
+    --cor-texto-escuro: var(--cor-primaria);
+    --cor-link: var(--cor-secundaria);
+    
+    --raio-borda: 8px; /* Cantos arredondados suaves */
+}
+
+/* Fundo: Usando a cor terrosa suave */
+body {
+    background-color: var(--cor-fundo-base);
+    background-image: none; /* Eliminando o fundo de madeira forte */
+    color: var(--cor-texto-escuro);
+    font-family: 'Georgia', serif; 
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo do cabeçalho - Minimalista */
+header {
+    background-color: var(--cor-primaria); /* Fundo marrom escuro */
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+/* Estilização da navegação (links) */
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 5px 10px;
+    border-radius: var(--raio-borda);
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2); 
+}
+
+/* Container Principal - Centralizado e com estilo de "página" */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 30px auto;
+    background-color: var(--cor-fundo-card);
+    border-radius: var(--raio-borda);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+    border: 1px solid var(--cor-borda); /* Borda terrosa sutil */
+}
+
+/* Botões - Estilo Principal para o Vintage Terroso */
+.btn-primary, .btn-submit {
+    background-color: #5e503f; /* Marrom escuro (cor primária) */
+    border: 2px solid #5e503f;
+    color: #f5f0e3; /* Cor de fundo para o texto */
+    padding: 10px 20px;
+    border-radius: var(--raio-borda);
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-submit:hover {
+    background-color: #8c4a31; /* Tom um pouco mais escuro de Terracotta */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+    background-color: var(--cor-fundo-base);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto-escuro);
+    padding: 10px 20px;
+    border-radius: var(--raio-borda);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #eee;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Mensagens Flash/Alerta */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: var(--raio-borda);
+    font-weight: bold;
+}
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+.alert-danger {
+    /* Usando tons de terracota suaves para alertar */
+    background-color: #f7e0e0; 
+    color: #a3583c;
+    border-color: #e6c3c3;
+}
+
+/* Rodapé simples e discreto */
+footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 40px;
+}

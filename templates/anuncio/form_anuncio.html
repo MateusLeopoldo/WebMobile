@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}{{ titulo_pagina }}{% endblock %}
+
+{% block conteudo %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2 class="mb-4">{{ titulo_pagina }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="{{ form.titulo.id_for_label }}" class="form-label">{{ form.titulo.label }}</label>
+                {{ form.titulo }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.descricao.id_for_label }}" class="form-label">{{ form.descricao.label }}</label>
+                {{ form.descricao }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.albums.id_for_label }}" class="form-label">{{ form.albums.label }}</label>
+                {{ form.albums }}
+                <div class="form-text">{{ form.albums.help_text }}</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{% url 'listar-anuncios' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

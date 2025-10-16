@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}Listagem de Álbuns{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'css/listar_albums.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block conteudo %}
+<!-- Seção do Banner -->
+<div class="banner-container text-center text-white d-flex flex-column justify-content-center align-items-center">
+    <div class="banner-content">
+        <h1 class="display-3 fw-bold">Descubra o Som do Vinil</h1>
+        <p class="lead my-3">Sua loja de discos clássicos e modernos, onde cada ranhura conta uma história.</p>
+        <a class="btn btn-primary btn-lg mt-3" href="#albums-section">Explorar Coleção</a>
+    </div>
+</div>
+
+<div class="container mt-5" id="albums-section">
+    <!-- Seção de Filtros -->
+    <div class="filter-bar p-4 mb-5">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-5">
+                <label for="search-input" class="form-label fw-bold">Pesquisar por Álbum ou Artista</label>
+                <input id="search-input" type="text" name="q" class="form-control"
+                    placeholder="Ex: The Dark Side of the Moon" value="{{ request.GET.q }}">
+            </div>
+
+            <div class="col-md-3">
+                <label for="genre-select" class="form-label fw-bold">Gênero Musical</label>
+                <select id="genre-select" name="genero" class="form-select">
+                    <option value="">Todos os gêneros</option>
+                    {% for value, display in generos %}
+                    <option value="{{ value }}" {% if request.GET.genero|add:0 == value %}selected{% endif %}>
+                        {{ display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="year-select" class="form-label fw-bold">Ano</label>
+                <select id="year-select" name="ano" class="form-select">
+                    <option value="">Qualquer ano</option>
+                    {% for ano_opcao in anos %}
+                    <option value="{{ ano_opcao }}" {% if request.GET.ano|add:0 == ano_opcao %}selected{% endif %}>
+                        {{ ano_opcao }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search me-2"></i>Buscar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Grid de Álbuns -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+        {% for album in lista_albums %}
+        <div class="col">
+            <div class="album-card-vinil">
+                <div class="album-cover-container">
+                    <img src="{{ album.foto.url }}" alt="Capa do {{ album.titulo }}" class="album-cover-img">
+                    <img src="{% static 'img/vinil.png' %}" alt="Vinil" class="vinil-img">
+                </div>
+                <div class="album-title-year">{{ album.titulo }} ({{ album.ano_lancamento }})</div>
+                <div class="album-artist-name">{{ album.artista }}</div>
+                <div class="album-price">R$ {{ album.preco|floatformat:2 }}</div>
+                <div class="add-to-cart-button">
+                    <span class="add-to-cart-text">Adicionar ao Carrinho</span>
+                </div>
+                <div class="action-buttons">
+                    <a href="#" class="btn-icon" title="Favoritar">
+                        <i class="bi bi-heart-fill"></i>
+                    </a>
+                    <a href="#" class="btn-icon" title="Ocultar">
+                        <i class="bi bi-eye-slash-fill"></i>
+                    </a>
+                    {% if user.is_superuser %}
+                    <a href="{% url 'editar-albums' album.id %}" class="btn-icon" title="Editar">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <a href="{% url 'deletar-albums' album.id %}" class="btn-icon" title="Deletar">
+                        <i class="bi bi-trash-fill"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Vintage Records{% endblock %}</title>
+    
+    <!-- Mantido para compatibilidade com as outras páginas -->
+    <link href="{% static 'bootstrap-5.3.8-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js' %}"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    
+    {% block extra_head %}{% endblock %}
+
+    <link rel="icon" href="{% static 'img/vinil.png' %}" type="image/png">
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'listar-albums' %}">Vintage Records</a></h1>
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'listar-albums' %}">Álbuns</a>
+                <a href="{% url 'listar-anuncios' %}">Anúncios</a>
+                {% if user.is_superuser %}
+                <a href="{% url 'criar-albums' %}">Novo Álbum</a>
+                {% endif %}
+                <a href="{% url 'logout' %}">Sair ({{ user.username }})</a>
+            {% else %}
+                <a href="{% url 'login' %}">Entrar</a>
+                {# Adicione um link de cadastro se tiver um #}
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mt-3">{{ message }}</div>
+        {% endfor %}
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; {% now "Y" %} Vintage Records. Todos os direitos reservados.</p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
