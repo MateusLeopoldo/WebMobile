@@ -1,6 +1,7 @@
 from django.db import models
 from album.consts import OPCOES_GENERO, OPCOES_ALBUM, OPCOES_FORMATO, OPCOES_IDIOMA
 from datetime import timedelta
+from django.utils import timezone
 
 class Album(models.Model):
     titulo = models.CharField(max_length=100)
@@ -19,6 +20,12 @@ class Album(models.Model):
         """Calcula a duração total do álbum somando a duração de todas as suas músicas."""
         total_seconds = sum(m.duracao.total_seconds() for m in self.musicas.all() if m.duracao)
         return timedelta(seconds=total_seconds)
+    
+    def e_novo(self):
+        return self.ano_lancamento >= timezone.now().year
+
+    def anos_desde_lancamento(self):
+        return timezone.now().year - self.ano_lancamento
 
     def __str__(self):
         return self.titulo

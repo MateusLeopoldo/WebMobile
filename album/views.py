@@ -39,7 +39,7 @@ class CriarAlbums(LoginRequiredMixin , CreateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         if self.request.POST:
-            data['musicas'] = MusicaFormSet(self.request.POST)
+            data['musicas'] = MusicaFormSet(self.request.POST, self.request.FILES)
         else:
             data['musicas'] = MusicaFormSet()
         return data
@@ -47,13 +47,13 @@ class CriarAlbums(LoginRequiredMixin , CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         musicas = context['musicas']
-        with transaction.atomic():
-            if form.is_valid() and musicas.is_valid():
+        if musicas.is_valid():
+            with transaction.atomic():
                 self.object = form.save()
                 musicas.instance = self.object # Associa o formset ao álbum recém-criado
                 musicas.save() # Salva as músicas
                 return redirect(self.get_success_url())
-        return self.render_to_response(self.get_context_data(form=form))
+        return self.render_to_response(self.get_context_data(form=form, musicas=musicas))
 
 
 class FotoAlbum(View):
@@ -76,7 +76,7 @@ class EditarAlbums(LoginRequiredMixin , UpdateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         if self.request.POST:
-            data['musicas'] = MusicaFormSet(self.request.POST, instance=self.object)
+            data['musicas'] = MusicaFormSet(self.request.POST, self.request.FILES, instance=self.object)
         else:
             data['musicas'] = MusicaFormSet(instance=self.object)
         return data

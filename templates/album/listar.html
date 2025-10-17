@@ -62,7 +62,12 @@
         <div class="col">
             <div class="album-card-vinil">
                 <div class="album-cover-container">
-                    <img src="{{ album.foto.url }}" alt="Capa do {{ album.titulo }}" class="album-cover-img">
+                    {% if album.duracao_total %}
+                    <div class="album-duration-badge">
+                        <i class="bi bi-clock"></i> {{ album.duracao_total }}
+                    </div>
+                    {% endif %}
+                    <img src="{% if album.foto %}{{ album.foto.url }}{% else %}{% static 'img/5384366.png' %}{% endif %}" alt="Capa do {{ album.titulo }}" class="album-cover-img">
                     <img src="{% static 'img/vinil.png' %}" alt="Vinil" class="vinil-img">
                 </div>
                 <div class="album-title-year">{{ album.titulo }} ({{ album.ano_lancamento }})</div>

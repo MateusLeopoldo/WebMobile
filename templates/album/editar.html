@@ -60,6 +60,26 @@
                                         {{ form.preco }}
                                         {% if form.preco.errors %}<div class="text-danger small mt-1">{{ form.preco.errors|striptags }}</div>{% endif %}
                                     </div>
+                                    <div class="col-sm-6">
+                                        {{ form.tipo_album.label_tag }}
+                                        {{ form.tipo_album }}
+                                        {% if form.tipo_album.errors %}<div class="text-danger small mt-1">{{ form.tipo_album.errors|striptags }}</div>{% endif %}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {{ form.formato.label_tag }}
+                                        {{ form.formato }}
+                                        {% if form.formato.errors %}<div class="text-danger small mt-1">{{ form.formato.errors|striptags }}</div>{% endif %}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {{ form.idioma.label_tag }}
+                                        {{ form.idioma }}
+                                        {% if form.idioma.errors %}<div class="text-danger small mt-1">{{ form.idioma.errors|striptags }}</div>{% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        {{ form.descricao.label_tag }}
+                                        {{ form.descricao }}
+                                        {% if form.descricao.errors %}<div class="text-danger small mt-1">{{ form.descricao.errors|striptags }}</div>{% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
