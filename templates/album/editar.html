@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}Editar Álbum: {{ album.titulo }}{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'css/formularios.css' %}" rel="stylesheet">
+<style>
+    .form-card-vinil { background: #FAF3E0; border: none; border-radius: 12px; box-shadow: 0 8px 24px rgba(93, 64, 55, 0.2); color: #5D4037; }
+    .form-card-vinil .card-header { background-color: #5D4037; color: #FAF3E0; border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom: none; }
+    .form-card-vinil .form-control, .form-card-vinil .form-select { background-color: #FDFBF5; border-color: #D7C6B8; color: #5D4037; }
+    .form-card-vinil .form-control:focus, .form-card-vinil .form-select:focus { background-color: #fff; border-color: #B08968; box-shadow: 0 0 0 0.25rem rgba(176, 137, 104, 0.25); }
+    .preview-container-styled { border: 2px dashed #D7C6B8; border-radius: 8px; padding: 1rem; transition: background-color 0.3s ease; }
+    .preview-container-styled:hover { background-color: #FDFBF5; }
+    #preview-foto { transition: transform 0.3s ease; }
+    #preview-foto:hover { transform: scale(1.05); }
+    .tracklist-header { font-weight: bold; color: #8D6E63; padding-bottom: 0.5rem; border-bottom: 1px solid #D7C6B8; }
+    .musica-form.marked-for-deletion { opacity: 0.5; text-decoration: line-through; }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container py-5">
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <div class="row justify-content-center gx-lg-5">
+            <div class="col-lg-11 col-xl-10">
+                <div class="card form-card-vinil">
+                    <div class="card-header text-center py-3">
+                        <h2 class="h4 mb-0 fw-bold">Editar Álbum: {{ album.titulo }}</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-4">
+                            <!-- Seção de Upload da Foto -->
+                            <div class="col-md-4 text-center">
+                                <label for="{{ form.foto.id_for_label }}" class="form-label fw-bold mb-3">Capa do Álbum</label>
+                                <div class="mb-2 preview-container-styled">
+                                    <img id="preview-foto" src="{% if album.foto %}{{ album.foto.url }}{% else %}{% static 'img/5384366.png' %}{% endif %}"
+                                        alt="Pré-visualização da capa" class="img-fluid rounded shadow-sm"
+                                        style="max-height: 280px; object-fit: cover; cursor: pointer;">
+                                </div>
+                                {{ form.foto }}
+                                {% if form.foto.errors %}<div class="text-danger small mt-1">{{ form.foto.errors|striptags }}</div>{% endif %}
+                            </div>
+                            <!-- Campos do Formulário -->
+                            <div class="col-md-8">
+                                <div class="row g-3">
+                                    <div class="col-12">{{ form.titulo.label_tag }}{{ form.titulo }}{% if form.titulo.errors %}<div class="text-danger small mt-1">{{ form.titulo.errors|striptags }}</div>{% endif %}</div>
+                                    <div class="col-12">{{ form.artista.label_tag }}{{ form.artista }}{% if form.artista.errors %}<div class="text-danger small mt-1">{{ form.artista.errors|striptags }}</div>{% endif %}</div>
+                                    <div class="col-sm-6">{{ form.genero.label_tag }}{{ form.genero }}{% if form.genero.errors %}<div class="text-danger small mt-1">{{ form.genero.errors|striptags }}</div>{% endif %}</div>
+                                    <div class="col-sm-6">{{ form.ano_lancamento.label_tag }}{{ form.ano_lancamento }}{% if form.ano_lancamento.errors %}<div class="text-danger small mt-1">{{ form.ano_lancamento.errors|striptags }}</div>{% endif %}</div>
+                                    <div class="col-sm-6">{{ form.tipo_album.label_tag }}{{ form.tipo_album }}{% if form.tipo_album.errors %}<div class="text-danger small mt-1">{{ form.tipo_album.errors|striptags }}</div>{% endif %}</div>
+                                    <div class="col-sm-6">{{ form.formato.label_tag }}{{ form.formato }}{% if form.formato.errors %}<div class="text-danger small mt-1">{{ form.formato.errors|striptags }}</div>{% endif %}</div>
+                                    <div class="col-sm-6">{{ form.idioma.label_tag }}{{ form.idioma }}{% if form.idioma.errors %}<div class="text-danger small mt-1">{{ form.idioma.errors|striptags }}</div>{% endif %}</div>
+                                    <div class="col-sm-6">{{ form.preco.label_tag }}{{ form.preco }}{% if form.preco.errors %}<div class="text-danger small mt-1">{{ form.preco.errors|striptags }}</div>{% endif %}</div>
+                                    <div class="col-12">{{ form.descricao.label_tag }}{{ form.descricao }}{% if form.descricao.errors %}<div class="text-danger small mt-1">{{ form.descricao.errors|striptags }}</div>{% endif %}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Seção de Músicas -->
+                        <hr class="my-4">
+                        <h3 class="h5 mb-3 fw-bold">Faixas do Álbum</h3>
+                        {{ musicas.management_form }}
+                        
+                        <div class="row g-2 align-items-center mb-2 d-none d-sm-flex tracklist-header">
+                            <div class="col">Título da Faixa</div>
+                            <div class="col-sm-3">Duração (HH:MM:SS)</div>
+                            <div class="col-auto" style="width: 90px;">Ação</div>
+                        </div>
+
+                        <!-- Área de Composição de Nova Música -->
+                        <div class="row g-2 align-items-center mb-3 p-2 rounded" style="background-color: #FDFBF5;">
+                            <div class="col"><input type="text" id="new-musica-titulo" class="form-control form-control-sm" placeholder="Título da nova faixa"></div>
+                            <div class="col-sm-3"><input type="time" id="new-musica-duracao" class="form-control form-control-sm" step="1" value="00:03:00"></div>
+                            <div class="col-auto" style="width: 90px;"><button type="button" id="add-musica-btn" class="btn btn-success btn-sm w-100"><i class="bi bi-plus-circle me-1"></i>Adicionar</button></div>
+                        </div>
+
+                        <!-- Lista de Músicas -->
+                        <div id="musicas-form-container">
+                            {% for musica_form in musicas.forms %}
+                            <div class="row g-2 align-items-center musica-form mb-2">
+                                {{ musica_form.as_p }} {# Renderiza os campos, que serão manipulados/escondidos por CSS/JS #}
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Template para novos formulários -->
+                        <div id="empty-form-template" style="display: none;">
+                            <div class="row g-2 align-items-center musica-form mb-2">
+                                {{ musicas.empty_form.as_p }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end bg-transparent border-top-0 pb-3">
+                        <a href="{% url 'listar-albums' %}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary" style="background-color: #B08968; border-color: #B08968;">Salvar Alterações</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Preview da imagem
+    const fotoInput = document.getElementById('{{ form.foto.id_for_label }}');
+    const previewFoto = document.getElementById('preview-foto');
+    previewFoto.addEventListener('click', () => fotoInput.click());
+    if (fotoInput) {
+        fotoInput.addEventListener('change', e => { if (e.target.files[0]) { previewFoto.src = URL.createObjectURL(e.target.files[0]); } });
+    }
+
+    // Lógica do Formset de Músicas
+    const container = document.getElementById('musicas-form-container');
+    const totalForms = document.getElementById('id_musicas-TOTAL_FORMS');
+    const template = document.getElementById('empty-form-template').innerHTML;
+
+    function setupMusicaForm(formElement) {
+        const tituloInput = formElement.querySelector('input[name$="-titulo"]');
+        const duracaoInput = formElement.querySelector('input[name$="-duracao"]');
+        const deleteCheckbox = formElement.querySelector('input[name$="-DELETE"]');
+        
+        formElement.querySelectorAll('label, br').forEach(el => el.style.display = 'none');
+        formElement.querySelectorAll('p').forEach(p => { p.style.margin = '0'; p.style.padding = '0'; });
+        
+        const removeBtnHTML = `<div class="col-auto" style="width: 90px;"><button type="button" class="btn btn-outline-danger btn-sm w-100 remove-musica-btn">Remover</button></div>`;
+        formElement.innerHTML = `<div class="col">${tituloInput.outerHTML}</div><div class="col-sm-3">${duracaoInput.outerHTML}</div>${removeBtnHTML}`;
+        
+        if (deleteCheckbox) {
+            formElement.appendChild(deleteCheckbox);
+            deleteCheckbox.style.display = 'none';
+        }
+    }
+
+    document.querySelectorAll('#musicas-form-container .musica-form').forEach(form => setupMusicaForm(form));
+
+    const newMusicaTituloInput = document.getElementById('new-musica-titulo');
+    const newMusicaDuracaoInput = document.getElementById('new-musica-duracao');
+    const addMusicaBtn = document.getElementById('add-musica-btn');
+
+    addMusicaBtn.addEventListener('click', function() {
+        const titulo = newMusicaTituloInput.value.trim();
+        const duracao = newMusicaDuracaoInput.value;
+        if (titulo === '' || duracao === '') { alert('Preencha o título e a duração.'); return; }
+
+        let formIndex = parseInt(totalForms.value);
+        const newFormHTML = template.replace(/__prefix__/g, formIndex);
+        const newFormNode = document.createElement('div');
+        newFormNode.classList.add('row', 'g-2', 'align-items-center', 'musica-form', 'mb-2');
+        newFormNode.innerHTML = newFormHTML;
+        
+        setupMusicaForm(newFormNode);
+        newFormNode.querySelector(`input[name$="-titulo"]`).value = titulo;
+        newFormNode.querySelector(`input[name$="-duracao"]`).value = duracao;
+
+        container.append(newFormNode.firstElementChild);
+        totalForms.value = formIndex + 1;
+
+        newMusicaTituloInput.value = '';
+        newMusicaTituloInput.focus();
+    });
+
+    container.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('remove-musica-btn')) {
+            const formRow = e.target.closest('.musica-form');
+            const deleteCheckbox = formRow.querySelector('input[name$="-DELETE"]');
+            if (deleteCheckbox) {
+                deleteCheckbox.checked = !deleteCheckbox.checked;
+                formRow.classList.toggle('marked-for-deletion', deleteCheckbox.checked);
+            } else {
+                formRow.remove();
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

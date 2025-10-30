@@ -1,0 +1,236 @@
+/* --- Estilos da Barra de Filtros --- */
+.filter-bar {
+    background: #FAF3E0; /* Fundo bege/creme, igual ao card */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(93, 64, 55, 0.15); /* Sombra com tom marrom, igual ao card */
+}
+
+/* --- Estilos do Card Baseados no Figma (Posicionamento ABSOLUTO com tamanho FIXO) --- */
+
+/* 1. Card Principal */
+.album-card-vinil {
+    width: 100%;
+     max-width: 380px;
+    height: 440px; /* Aumentado para dar mais espaço embaixo */
+    position: relative; 
+    background: #FAF3E0; /* Fundo bege/creme */
+    overflow: visible; /* Permite que o vinil saia dos limites do card */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(93, 64, 55, 0.15); /* Sombra com tom marrom */
+    font-family: 'Inter', sans-serif;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, z-index 0s 0.3s; /* Adiciona z-index à transição */
+    margin: 0 auto;
+}
+
+/* 2. Contêiner de Capa e Vinil (Define a área visual superior) */
+.album-card-vinil .album-cover-container {
+    /* Posição absoluta dentro do .album-card-vinil */
+    width: 327px !important;
+    height: 225px !important; /* Altura forçada */
+    left: 19px !important;
+    top: 29px !important;
+    position: absolute !important; 
+    position: relative !important; /* Necessário para o vinil/capa serem absolutos DENTRO dele */
+    overflow: visible !important; /* Permite que o vinil saia dos limites do contêiner */
+    background: transparent; /* Fundo removido para mostrar apenas o vinil */
+    transition: transform 0.3s ease-in-out; /* Adiciona transição para o efeito de crescimento */
+}
+
+/* 3. Imagem do Vinil - FORÇANDO DIMENSÕES E POSIÇÃO */
+.album-card-vinil .vinil-img {
+    width: 227px !important; 
+    height: 225px !important; /* <--- ALTURA FORÇADA AQUI */
+    left: 55px !important; /* Posição inicial ajustada para a esquerda */
+    top: 0px !important;
+    position: absolute !important;
+    z-index: 1 !important; 
+    object-fit: cover !important; 
+    transition: left 0.4s ease-in-out;
+}
+
+/* 4. Imagem da Capa do Álbum - FORÇANDO DIMENSÕES E POSIÇÃO */
+.album-card-vinil .album-cover-img {
+    width: 214px !important;
+    height: 225px !important; /* <--- ALTURA FORÇADA AQUI */
+    left: 0px !important; 
+    top: 0px !important;
+    position: absolute !important;
+    z-index: 2 !important; /* Fica em cima do vinil */
+    object-fit: cover !important;
+}
+
+/* Efeito de hover: move o vinil */
+.album-card-vinil:hover .vinil-img {
+    left: 120px !important;
+    animation: spin 2s linear infinite; /* Adiciona a animação de rotação */
+}
+
+/* Efeito de hover: cresce o contêiner da capa (e a imagem junto) */
+.album-card-vinil:hover .album-cover-container {
+    transform: scale(1.05); /* Aumenta a capa em 5% */
+}
+
+/* Efeito de hover no card principal: cresce e eleva a sombra */
+.album-card-vinil:hover {
+    transform: scale(1.05); /* Aumenta o tamanho do card em 5% */
+    box-shadow: 0 8px 24px rgba(93, 64, 55, 0.2); /* Sombra mais intensa com tom marrom */
+    transition-delay: 0s; /* Remove o delay do z-index ao entrar no hover */
+    z-index: 10; /* Garante que o card fique sobre os outros ao crescer */
+}
+
+/* --- 5. Elementos de Texto (Posição Absoluta) --- */
+/* Todos usam !important para garantir a posição correta */
+.album-card-vinil .album-title-year {
+    top: 266px !important;
+    left: 27px !important;
+    position: absolute !important;
+    width: 237px;
+    font-size: 16px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #5D4037; /* Texto em marrom escuro */
+}
+
+.album-card-vinil .album-artist-name {
+    top: 296px !important;
+    left: 27px !important;
+    position: absolute !important;
+    width: 237px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #5D4037; /* Texto em marrom escuro */
+}
+
+.album-card-vinil .album-price {
+    top: 320px !important;
+    left: 27px !important;
+    position: absolute !important;
+    width: 237px;
+    font-size: 24px;
+    font-weight: 800;
+    color: #5D4037; /* Texto em marrom escuro */
+}
+
+/* --- 6. Botões (Posição Absoluta) --- */
+
+.album-card-vinil .add-to-cart-button {
+    top: 357px !important;
+    left: 0; /* Alinha no início para o flexbox funcionar */
+    right: 0; /* Alinha no fim para o flexbox funcionar */
+    width: 85%; /* Largura relativa ao card */
+    margin: 0 auto; /* Centraliza horizontalmente */
+    height: 38px;
+    position: absolute !important;
+    background: #B08968; /* Botão em tom de madeira/couro */
+    display: flex; /* Necessário para centralizar o texto com align/justify */
+    border-radius: 8px; /* Adiciona as bordas arredondadas */
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.album-card-vinil .add-to-cart-button:hover {
+    background: #9C7A5E; /* Tom mais escuro para o hover */
+}
+
+.album-card-vinil .add-to-cart-text {
+    font-size: 16px; 
+    font-weight: 700;
+    color: #FAF3E0; /* Texto do botão com a cor de fundo do card */
+}
+
+.album-card-vinil .action-buttons {
+    position: absolute !important;
+    bottom: -60px !important; /* Posiciona os botões para fora, na parte de baixo */
+    right: 19px !important; 
+    width: auto; /* Largura automática baseada no conteúdo */
+    padding: 8px;
+    background: #FAF3E0; /* Mesma cor de fundo do card */
+    border-radius: 8px; /* Bordas arredondadas */
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Espaçamento entre os ícones */
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(93, 64, 55, 0.1); /* Sombra sutil */
+}
+
+.album-card-vinil .action-buttons .btn-icon {
+    color: #5D4037; /* Cor marrom escuro para os ícones */
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.album-card-vinil .action-buttons .btn-icon:hover {
+    transform: scale(1.2); /* Efeito de crescimento no hover */
+    color: #B08968; /* Cor de destaque no hover */
+}
+
+/* Animação para girar o vinil */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+/* ... seu CSS existente ... */
+
+.album-card {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    gap: 15px; /* Adiciona espaço entre os elementos */
+}
+
+.album-cover {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.album-info {
+    flex-grow: 1; /* Faz esta div ocupar o espaço restante */
+}
+
+.album-info h5 {
+    margin-bottom: 5px;
+}
+
+.album-info p {
+    margin-bottom: 10px;
+    color: #6c757d;
+}
+
+.album-rating {
+    margin-bottom: 10px;
+}
+
+.album-price span {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.album-actions {
+    display: flex;
+    gap: 10px; /* Espaço entre os botões */
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.btn-icon:hover {
+    opacity: 0.7;
+}

@@ -1,0 +1,17 @@
+/* Estilos para as páginas de formulário (novo/editar) */
+
+.card-album {
+    background-color: var(--cor-card);
+    border: 1px solid var(--cor-card-borda);
+}
+
+.card-header {
+    background-color: var(--cor-primaria) !important;
+}
+
+.preview-container img {
+    max-height: 250px;
+    width: 100%;
+    object-fit: cover;
+    border: 3px solid var(--cor-card-borda);
+}
