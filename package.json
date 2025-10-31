@@ -1,0 +1,10 @@
+{
+  "name": "django-tailwind",
+  "version": "1.0.0",
+  "scripts": {
+    "build-css": "tailwindcss -i ./sistema/static/css/input.css -o ./sistema/static/css/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
