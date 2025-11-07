@@ -1,20 +1,53 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Álbuns</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="search-container">
+    <ion-searchbar 
+      placeholder="Buscar álbuns, artistas..." 
+      (ionInput)="load($any($event.target).value)"
+      class="custom-searchbar">
+    </ion-searchbar>
+  </div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div *ngIf="loading" class="loading-state">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Carregando álbuns...</p>
+  </div>
+
+  <ion-text color="danger" *ngIf="error" class="error-state">
+    <p>{{ error }}</p>
+  </ion-text>
+
+  <div class="albums-grid" *ngIf="!loading && !error">
+    <div class="album-card" *ngFor="let album of albums">
+      <div class="album-artwork">
+        <div class="vinyl-disc"></div>
+        <img [src]="album.foto_url || 'assets/placeholder-album.png'" 
+             [alt]="album.titulo" 
+             class="album-cover">
+      </div>
+      <div class="album-info">
+        <h3>{{ album.titulo }}</h3>
+        <p class="artist">{{ album.artista }}</p>
+        <div class="album-meta">
+          <span class="year">{{ album.ano_lancamento }}</span>
+          <span class="price">{{ album.preco_formatado || ('R$ ' + album.preco) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error && albums.length === 0" class="empty-state">
+    <ion-icon name="disc-outline"></ion-icon>
+    <p>Nenhum álbum encontrado</p>
   </div>
 </ion-content>

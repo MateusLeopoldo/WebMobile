@@ -12,3 +12,13 @@ export class Usuario
     this.token = '';
   }
 }
+
+export interface Credenciais {
+  username: string;
+  password: string;
+}
+
+export interface JwtTokens {
+  access: string;
+  refresh: string;
+}

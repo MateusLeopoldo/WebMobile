@@ -1,85 +1,46 @@
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../shared/auth.service';
+import { Credenciais } from './usuario.model';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Storage } from '@ionic/storage-angular';
-import { Component, OnInit } from '@angular/core';
-import { CapacitorHttp, HttpOptions, HttpResponse } from '@capacitor/core';
-import { IonContent, LoadingController, NavController, AlertController, ToastController, IonList, IonItem, IonInput, IonButton } from '@ionic/angular/standalone';
-import { Usuario } from './usuario.model';
+import {
+  IonContent, IonItem, IonInput, IonButton, IonText, IonSpinner, IonIcon
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { musicalNotes } from 'ionicons/icons';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonList, IonItem, IonInput, IonButton, IonContent, FormsModule],
-  providers: [Storage]
+  imports: [
+    CommonModule, FormsModule,
+    IonContent, IonItem, IonInput, IonButton, IonText, IonSpinner, IonIcon
+  ],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
+  form: Credenciais = { username: '', password: '' };
+  loading = false;
+  error: string | null = null;
 
-  constructor(
-    public controle_carregamento: LoadingController,
-    public controle_navegacao: NavController,
-    public controle_alerta: AlertController,
-    public controle_toast: ToastController,
-    public storage: Storage
-  ) { }
-
-  async ngOnInit() {
-    await this.storage.create();
+  constructor(private auth: AuthService, private router: Router) {
+    addIcons({ musicalNotes });
   }
 
-  public instancia: { username: string, password: string } = {
-    username: '',
-    password: ''
-  };
-
-  async autenticarUsuario() {
-
-    // Inicializa interface com efeito de carregamento
-    const loading = await this.controle_carregamento.create({message: 'Autenticando...', duration: 15000});
-    await loading.present();
-
-    // Define informações do cabeçalho da requisição
-    const options: HttpOptions = {
-      headers: {'Content-Type': 'application/json'},
-      url: 'http://127.0.0.1:8000/autenticacao-api/',
-      data: this.instancia
-    };
-
-    // Autentica usuário junto a API do sistema web
-    CapacitorHttp.post(options)
-      .then(async (resposta: HttpResponse) => {
-
-        // Verifica se a requisição foi processada com sucesso
-        if(resposta.status == 200) {
-
-          // Armazena localmente as credenciais de usuário
-          let usuario: Usuario = Object.assign(new Usuario(), resposta.data);
-          await this.storage.set('usuario', usuario);
-          
-          // Finaliza autenticação e redireciona para interface inicial
-          loading.dismiss();
-          this.controle_navegacao.navigateRoot('/home');
-        }
-        else {
-
-          // Finaliza autenticação e apresenta mensagem de erro
-          loading.dismiss();
-          this.apresenta_mensagem(resposta.status);
-        }
-      })
-      .catch(async (erro: any) => {
-        console.log(erro);
-        loading.dismiss();
-        this.apresenta_mensagem(erro?.status);
-      });
-  }
-
-  async apresenta_mensagem(codigo: number) {
-    const mensagem = await this.controle_toast.create({
-      message: `Falha ao autenticar usuário: código ${codigo}`,
-      cssClass: 'ion-text-center',
-      duration: 2000
+  submit() {
+    this.loading = true;
+    this.error = null;
+    this.auth.login(this.form).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigateByUrl('/home', { replaceUrl: true });
+      },
+      error: (err) => {
+        this.loading = false;
+        this.error = err?.error?.detail || 'Falha no login';
+      }
     });
-    mensagem.present();
   }
 }
